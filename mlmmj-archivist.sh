@@ -17,4 +17,23 @@
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
+# error message
+_error() {
+	echo "error: ${@}."
+	exit 1
+}
 
+# check if requirements are installed
+for _cmd in file ; do
+	which ${_cmd} >/dev/null 2>&1 || \
+		_error "${_cmd} is not installed"
+done
+
+# use seq or jot or fail if none is available
+if which seq >/dev/null 2>&1; then
+	_seq="$(which seq)"
+elif which jot >/dev/null 2>&1; then
+	_seq="$(which jot) -"
+else
+	_error "no seq or jot installed"
+fi
