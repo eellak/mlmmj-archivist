@@ -1,0 +1,6 @@
+#
+# the configuration for mlmmj-archivist
+#
+
+# the spool directory for mlmmj
+_mlmmj_spool="/var/spool/mlmmj"
