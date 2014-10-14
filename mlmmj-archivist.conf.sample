@@ -4,3 +4,7 @@
 
 # the spool directory for mlmmj
 _mlmmj_spool="/var/spool/mlmmj"
+
+# the web output directory
+# XXX: replace with actual path when done
+_public_html="/home/manolis/web"
