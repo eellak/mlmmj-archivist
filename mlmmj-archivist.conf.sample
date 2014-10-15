@@ -8,3 +8,7 @@ _mlmmj_spool="/var/spool/mlmmj"
 # the web output directory
 # XXX: replace with actual path when done
 _public_html="/home/manolis/web"
+
+# the web url root
+# XXX: replace when done
+_public_url="http://localhost:2080/web"
