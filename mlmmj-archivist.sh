@@ -154,5 +154,8 @@ do
 			-add < "${_msgfile}"
 
 		# XXX separate attachments (paths/urls)
+
+		# update last index counter on success
+		[ "$?" -eq 0 ] && echo ${_msg} > ${_workpath}/lastindex
 	done
 done
