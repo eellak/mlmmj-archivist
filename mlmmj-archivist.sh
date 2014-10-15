@@ -85,6 +85,11 @@ if [ -s ${_conffile} ]; then
 	_public_html=$(awk -F '=' \
 		'/_public_html/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
 		${_conffile})
+
+	# get the public url
+	_public_url=$(awk -F '=' \
+		'/_public_url/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
+		${_conffile})
 else
 	_error "configuration file not found"
 fi
@@ -145,11 +150,11 @@ do
 
 		# XXX: replace with actual mhonarc command
 		# XXX: remove last 4 lines - the list signature
-		mhonarc -idxfname index.html \
+		mhonarc -rcfile ./mhonarc/options.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
-			-lang "el" -spammode \
-			-addressmodifycode 's/@/ [ at ] /; s/\./ [ dot ] /g;' \
-			-modifybodyaddresses \
+			-dbfile "${_workpath}/mhonarc.db" \
+			-lang "el" \
+			-subjectstripcode "s/\[${_shortname}\]//;" \
 			-title "${_shortname}" \
 			-add < "${_msgfile}"
 
@@ -158,4 +163,38 @@ do
 		# update last index counter on success
 		[ "$?" -eq 0 ] && echo ${_msg} > ${_workpath}/lastindex
 	done
+
+	## XXX: create the main archive page
+	## XXX: replace manual creation with a proper 'template' file
+
+	# temporary main index
+	if _temp_mainindex="$(mktemp ${_workpath}/index.html.XXXXXX)"; then
+		trap 'rm -f ${_temp_mainindex}; exit 1' 0 1 15
+	else
+		_error "temp file creation failed"
+	fi
+
+	echo "<!DOCTYPE html>\n<html><head><title>${_shortname}</title></head><body>" >> ${_temp_mainindex}
+
+	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d); do
+		echo "<h2>${_year##${_listout}/}</h2>" >> ${_temp_mainindex}
+
+		echo '<ul>' >> ${_temp_mainindex}
+
+		for _month in $(find ${_year} -mindepth 1 -maxdepth 1 -type d | sort -r)
+		do
+			_link=$(echo ${_month} | sed -e "s@${_public_html}@${_public_url}@g")
+
+			echo "<li><a href="${_link}">${_month##${_year}/}</a></li>" >> \
+				${_temp_mainindex}
+		done
+
+		echo '</ul>' >> ${_temp_mainindex}
+	done
+
+	echo '</body></html>' >> ${_temp_mainindex}
+
+	# move temp main index to the list archive's index.html
+	mv ${_temp_mainindex} ${_listout}/index.html
+	chmod 0644 ${_listout}/index.html
 done
