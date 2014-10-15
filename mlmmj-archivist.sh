@@ -103,12 +103,13 @@ do
 		&& _curindex="$(cat ${_listpath}/index)" \
 		|| continue
 
-	# read the last index
+	# read the last index, or set it to 1 if not available
 	test -s "${_workpath}/lastindex" \
-		&& _lastindex="$(cat ${_workpath}/lastindex)"
+		&& _lastindex="$(cat ${_workpath}/lastindex)" \
+		|| _lastindex=1
 
 	# skip lists that are up to date
-	if [ "${_lastindex}" ] && [ ${_curindex} -le ${_lastindex} ]; then
+	if [ "${_lastindex}" -ne 1 ] && [ ${_curindex} -le ${_lastindex} ]; then
 		continue
 	fi
 
