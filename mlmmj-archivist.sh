@@ -62,7 +62,7 @@ _datefmt() {
 		Dec) _month=12 ;;
 	esac
 
-	#} get the year
+	# get the year
 	_year="$(echo ${_datestr} | awk '{ print $4 }')"
 
 	# 'return' the complete string
@@ -74,10 +74,20 @@ _datefmt() {
 # is available
 _conffile="./mlmmj-archivist.conf.sample"
 
-# load the configuration file
-test -s ${_conffile} \
-	&& . ${_conffile} \
-	|| _error "configuration file not found"
+# parse the configuration file
+if [ -s ${_conffile} ]; then
+	# get the mlmmj spool path
+	_mlmmj_spool=$(awk -F '=' \
+		'/_mlmmj_spool/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
+		${_conffile})
+
+	# get the public html path
+	_public_html=$(awk -F '=' \
+		'/_public_html/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
+		${_conffile})
+else
+	_error "configuration file not found"
+fi
 
 # get a list or mailing lists to process
 # (aka the ones that contain archivist in control dir)
