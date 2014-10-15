@@ -89,26 +89,19 @@ else
 	_error "configuration file not found"
 fi
 
-# get a list or mailing lists to process
-# (aka the ones that contain archivist in control dir)
-for _listpath in \
-	$(find ${_mlmmj_spool} -type f -name 'archivist' | \
-		sed -e 's:/control/archivist::g')
+# loop over the mailing lists that contain the dir archivist
+for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist')
 do
 	# clear vars to avoid confusion
 	unset _curindex _lastindex
+
+	# the list spool path
+	_listpath="${_workpath%%/archivist}"
 
 	# check the index file and skip empty lists
 	test -s "${_listpath}/index" \
 		&& _curindex="$(cat ${_listpath}/index)" \
 		|| continue
-
-	# the archivist directory where we store mlmmj-archivist
-	# related files
-	_workpath="${_listpath}/archivist"
-
-	# create the archivist directory if not available
-	test -d "${_workpath}" || install -d -m 0755 "${_workpath}"
 
 	# read the last index
 	test -s "${_workpath}/lastindex" \
@@ -121,8 +114,7 @@ do
 
 	# list short name. use cut to get only the listname when
 	# domain/listname structure is used
-	_shortname=$(echo ${_listpath} | sed -e "s:${_mlmmj_spool}/::g" | \
-		cut -d '/' -f 2)
+	_shortname=$(echo ${_listpath##${_mlmmj_spool}/} | cut -d '/' -f2)
 
 	# create the output directory if not available
 	test -d "${_public_html}" || install -d -m 0755 "${_public_html}"
