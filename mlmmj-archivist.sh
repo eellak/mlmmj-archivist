@@ -121,7 +121,6 @@ do
 	# list short name. use cut to get only the listname when
 	# domain/listname structure is used
 	_shortname=$(echo ${_listpath##${_mlmmj_spool}/} | cut -d '/' -f2)
-
 	# create the output directory if not available
 	test -d "${_public_html}" || install -d -m 0755 "${_public_html}"
 
@@ -150,9 +149,8 @@ do
 
 		# XXX: replace with actual mhonarc command
 		# XXX: remove last 4 lines - the list signature
-		mhonarc -rcfile ./mhonarc/options.mrc \
+		mhonarc -rcfile ./mhonarc/mhonarc.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
-			-dbfile "${_workpath}/mhonarc.db" \
 			-lang "el" \
 			-subjectstripcode "s/\[${_shortname}\]//;" \
 			-title "${_shortname}" \
