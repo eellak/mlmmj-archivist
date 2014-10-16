@@ -38,6 +38,11 @@ text/x-html; m2h_text_plain::filter; mhtxtplain.pl
 index.html
 </IDXFNAME>
 
+<!-- create tindex.html for thread archives -->
+<TIDXFNAME>
+tindex.html
+</TIDXFNAME>
+
 <!-- remove link to mhonarc doc from the footer -->
 <NODOC>
 </NODOC>
