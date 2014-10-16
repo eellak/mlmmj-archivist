@@ -41,7 +41,7 @@ done
 
 # convert the message's post date to something usable
 # usage: _datefmt [date string]
-# returns a string with the date in the fmt of YYYY/MM
+# 'returns' a string with the date in the fmt of YYYY/MM
 _datefmt() {
 	# the formatted date string to work on
 	_datestr="$1"
@@ -67,6 +67,35 @@ _datefmt() {
 
 	# 'return' the complete string
 	echo "${_year}/${_month}"
+}
+
+# reverse previous function to create the date for mhonarc
+# templates
+# usage: _datefmtrev YYYY/mm
+# 'returns' a string with the date in the fmt of Month YYYY
+_datefmtrev() {
+	# the formatted date string to work on
+	_datestr="$1"
+
+	_year=$(echo ${_datestr} | cut -d '/' -f 1)
+
+	# convert month number to name
+	case "$(echo ${_datestr} | cut -d '/' -f 2)" in
+		01) _month="January" ;;
+		02) _month="February" ;;
+		03) _month="March" ;;
+		04) _month="April" ;;
+		05) _month="May" ;;
+		06) _month="June" ;;
+		07) _month="July" ;;
+		08) _month="August" ;;
+		09) _month="September" ;;
+		10) _month="October" ;;
+		11) _month="November" ;;
+		12) _month="December" ;;
+	esac
+
+	echo "${_month} ${_year}"
 }
 
 # the default configuration file
@@ -149,11 +178,11 @@ do
 
 		# XXX: replace with actual mhonarc command
 		# XXX: remove last 4 lines - the list signature
-		mhonarc -rcfile ./mhonarc/mhonarc.mrc \
+		_LANG="el" _DATE="$(_datefmtrev ${_msgmonth})" _LNAME="${_shortname}" \
+			mhonarc -rcfile ./mhonarc/mhonarc.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
-			-lang "el" \
+			-lang "${_LANG}" \
 			-subjectstripcode "s/\[${_shortname}\]//;" \
-			-title "${_shortname}" \
 			-add < "${_msgfile}"
 
 		# XXX separate attachments (paths/urls)
@@ -173,6 +202,7 @@ do
 	fi
 
 	echo "<!DOCTYPE html>\n<html><head><title>${_shortname}</title></head><body>" >> ${_temp_mainindex}
+	echo "<h1>${_shortname} Archive</h1>" >> ${_temp_mainindex}
 
 	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d); do
 		echo "<h2>${_year##${_listout}/}</h2>" >> ${_temp_mainindex}
