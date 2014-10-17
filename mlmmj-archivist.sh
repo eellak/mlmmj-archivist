@@ -24,15 +24,6 @@ _error() {
 	exit 1
 }
 
-# use seq or jot or fail if none is available
-if which seq >/dev/null 2>&1; then
-	_seq="$(which seq)"
-elif which jot >/dev/null 2>&1; then
-	_seq="$(which jot) -"
-else
-	_error "no seq or jot installed"
-fi
-
 # check if requirements are installed
 for _cmd in awk file mhonarc; do
 	which ${_cmd} >/dev/null 2>&1 || \
@@ -159,7 +150,9 @@ do
 	test -d "${_listout}" || install -d -m 0755 "${_listout}"
 
 	# parse messages to create the list archive
-	for _msg in $(${_seq} ${_lastindex} ${_curindex}); do
+	_msg=${_lastindex}
+
+	while [ ${_msg} -le ${_curindex} ]; do
 		# the message file
 		_msgfile="${_listpath}/archive/${_msg}"
 
@@ -189,6 +182,9 @@ do
 
 		# update last index counter on success
 		[ "$?" -eq 0 ] && echo ${_msg} > ${_workpath}/lastindex
+
+		# incremenet the counter
+		_msg=$((${_msg} + 1))
 	done
 
 	## XXX: create the main archive page
