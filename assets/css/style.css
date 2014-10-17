@@ -1,0 +1,61 @@
+body {
+	font-family: 'Helvetica Neue', Arial, sans;
+	line-height: 22px;
+	background: #efefef;
+	color: #333;
+}
+
+a {
+	text-decoration: none;
+	color: #666;
+}
+
+a:hover {
+	color: #999;
+}
+
+ul {
+	padding: 0 0 0 20px;
+}
+
+.current-item {
+	font-weight: bold;
+}
+
+#page {
+	width: 960px;
+	margin: 20px auto 40px;
+}
+
+pre {
+	font-family: 'Courier New', Courier, monospace;
+	white-space:pre-wrap
+}
+
+h1 {
+	line-height: 36px;
+}
+
+#top-menu {
+	text-align: right;
+	border-bottom: 1px solid #333;
+	padding-bottom: 10px;
+}
+
+#message {
+	margin-top: 30px;
+}
+
+#msg-body {
+	border-bottom: 1px solid #666;
+	padding-bottom: 10px;
+}
+
+.sep {
+	margin: 0 10px;
+}
+
+#msg-fields ul {
+	list-style-type: none;
+	padding: 0;
+}
