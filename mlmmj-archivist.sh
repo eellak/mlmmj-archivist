@@ -171,7 +171,9 @@ do
 
 		# XXX: replace with actual mhonarc command
 		# XXX: remove last 4 lines - the list signature
-		_LANG="el" _DATE="$(_datefmtrev ${_msgmonth})" _LNAME="${_shortname}" \
+		_LANG="el" _DATE="$(_datefmtrev ${_msgmonth})" \
+			_LNAME="${_shortname}" _PUBLIC_URL="${_public_url}" \
+			_LIST_URL="${_public_url}/${_shortname}" \
 			mhonarc -rcfile ./mhonarc/mhonarc.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
 			-lang "${_LANG}" \
@@ -197,7 +199,13 @@ do
 		_error "temp file creation failed"
 	fi
 
-	echo "<!DOCTYPE html>\n<html><head><title>${_shortname}</title></head><body>" >> ${_temp_mainindex}
+	if [ ! -d ${_public_html}/css ]; then
+		install -d -m 0755 ${_public_html}/css
+		install    -m 0644 assets/css/style.css \
+			${_public_html}/css/style.css
+	fi
+
+	echo "<!DOCTYPE html>\n<html><head><title>${_shortname}</title><link rel="stylesheet" href="${_public_url}/css/style.css"></head><body>" >> ${_temp_mainindex}
 	echo "<h1>${_shortname} Archive</h1>" >> ${_temp_mainindex}
 
 	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d); do
