@@ -3,7 +3,6 @@
 <!-- for more information -->
 
 <!-- use utf-8 -->
-
 <TEXTENCODE>
 utf-8; MHonArc::UTF8::to_utf8; MHonArc/UTF8.pm
 </TEXTENCODE>
@@ -57,6 +56,17 @@ subject
 from
 date
 </FIELDORDER>
+
+<!-- fields beginning/end -->
+<FIELDSBEG>
+<div id="msg-fields">
+	<ul>
+</FIELDSBEG>
+
+<FIELDSEND>
+	</ul>
+</div><!-- #msg-fields -->
+</FIELDSEND>
 
 <!-- enable spam mode -->
 <SPAMMODE>
