@@ -12,37 +12,51 @@
 <head>
 	<meta charset="utf-8">
 	<title>$TIDXTITLE$</title>
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="$ENV(_PUBLIC_URL)$/css/style.css">
 </head>
 
 <body>
+	<div id="page">
+		<div id="top-menu">
+			<a href="$ENV(_PUBLIC_URL)$">home</a>
+			<span class="sep">|</span>
+			<a href="$ENV(_LIST_URL)$">list archive</a>
+			<span class="sep">|</span>
+			<a href="$IDXFNAME$">date index</a>
+			<span class="sep">|</span>
+			<a href="$TIDXFNAME$" class="current-item">thread index</a>
+		</div><!-- #top-menu -->
+
+		<h1>$TIDXTITLE$</h1>
 </TIDXPGBEGIN>
-
-<!-- thread index end -->
-<TIDXPGEND>
-</body>
-</html>
-</TIDXPGEND>
-
 
 <!-- thread index header -->
 <THEAD>
-	<nav id="top-menu">
-		<ul>
-			<li><a href="/">home</a></li>
-			<li><a href="$IDXFNAME$#$MSGNUM$">date index</a></li>
-		</ul>
-	</nav>
-
-	<div id="messages">
-		<h1>$TIDXTITLE$</h1>
-
-		<div id="tidx">
+		<div id="messages">
 			<ul>
 </THEAD>
 
+<!-- markup for each message in thread index message list -->
+<TLITXT>
+				<li><span class="msg-subject"><strong>$SUBJECT$</strong></span>, <span class="msg-from"><em>$FROMNAME$</em></span><br /><span class="msg-date">$MSGLOCALDATE(CUR;%Y-%m-%d)$</span></li>
+</TLITXT>
+
+<TTOPBEGIN>
+				<li><span class="msg-subject"><strong>$SUBJECT$</strong></span>, <span class="msg-from"><em>$FROMNAME$</em></span><br /><span class="msg-date">$MSGLOCALDATE(CUR;%Y-%m-%d)$</span></li>
+</TTOPBEGIN>
+
+<TSINGLETXT>
+				<li><span class="msg-subject"><strong>$SUBJECT$</strong></span>, <span class="msg-from"><em>$FROMNAME$</em></span><br /><span class="msg-date">$MSGLOCALDATE(CUR;%Y-%m-%d)$</span></li>
+</TSINGLETXT>
+
 <TFOOT>
 			</ul>
-		</div>
-	 </div>
+		</div><!-- #messages -->
 </TFOOT>
+
+<!-- thread index end -->
+<TIDXPGEND>
+	</div><!-- #page -->
+</body>
+</html>
+</TIDXPGEND>
