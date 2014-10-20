@@ -217,9 +217,9 @@ do
 
 	# create the list of months/years
 	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d); do
-		_content="${_content}\n<div class=\"month-list\">\n"
-		_content="${_content}\t<h2>${_year##${_listout}/}</h2>\n"
-		_content="${_content}\t<table>\n<tbody>\n"
+		_content="${_content}<div class=\"month-list\">\n"
+		_content="${_content}\t\t\t<h2>${_year##${_listout}/}</h2>\n\n"
+		_content="${_content}\t\t\t<table>\n\t\t\t\t<tbody>\n"
 
 		for _month in $(find ${_year} -mindepth 1 -maxdepth 1 -type d \
 			| sort -r)
@@ -237,15 +237,15 @@ do
 			_monthindex="<a href=\"${_monthurl}\">date index</a>"
 			_monthtindex="<a href=\"${_monthurl}/tindex.html\">thread index</a>"
 
-#			_content="${_content}\t<li><strong>${_monthfmt}</strong>"
-#			_content="${_content}${_monthindex}${_monthtindex}</li>\n"
-			_content="${_content}\t<tr>\n"
-			_content="${_content}\t<th>${_monthfmt}</th>\n"
-			_content="${_content}\t<td>${_monthindex}</td>\n"
-			_content="${_content}\t<td>${_monthtindex}</td>\n</tr>\n"
+			_content="${_content}\t\t\t\t\t<tr>\n"
+			_content="${_content}\t\t\t\t\t\t<th>${_monthfmt}</th>\n"
+			_content="${_content}\t\t\t\t\t\t<td>${_monthindex}</td>\n"
+			_content="${_content}\t\t\t\t\t\t<td>${_monthtindex}</td>\n"
+			_content="${_content}\t\t\t\t\t</tr>\n"
 		done
 
-		_content="${_content}\t</tbody>\n</table>\n</div>"
+		_content="${_content}\t\t\t\t</tbody>\n\t\t\t</table>"
+		_content="${_content}\n\t\t</div><!-- .month-list -->"
 	done
 
 	# write content in the temp file to avoid race conditions
