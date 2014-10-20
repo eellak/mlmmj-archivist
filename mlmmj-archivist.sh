@@ -92,7 +92,7 @@ _datefmtrev() {
 # the default configuration file
 # XXX: switch to the actual configuration file after Makefile
 # is available
-_conffile="./mlmmj-archivist.conf.sample"
+_conffile="./config/mlmmj-archivist.conf.sample"
 
 # parse the configuration file
 if [ -s ${_conffile} ]; then
@@ -173,7 +173,7 @@ do
 		_LANG="el" _DATE="$(_datefmtrev ${_msgmonth})" \
 			_LNAME="${_shortname}" _PUBLIC_URL="${_public_url}" \
 			_LIST_URL="${_public_url}/${_shortname}" \
-			mhonarc -rcfile ./mhonarc/mhonarc.mrc \
+			mhonarc -rcfile ./config/template/mhonarc/mhonarc.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
 			-lang "${_LANG}" \
 			-subjectstripcode "s/\[${_shortname}\]//;" \
@@ -200,7 +200,7 @@ do
 
 	if [ ! -d ${_public_html}/css ]; then
 		install -d -m 0755 ${_public_html}/css
-		install    -m 0644 assets/css/style.css \
+		install    -m 0644 config/template/assets/css/style.css \
 			${_public_html}/css/style.css
 	fi
 
