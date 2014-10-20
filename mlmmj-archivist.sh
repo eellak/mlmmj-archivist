@@ -141,12 +141,12 @@ do
 	# list short name. use cut to get only the listname when
 	# domain/listname structure is used
 	_shortname=$(echo ${_listpath##${_mlmmj_spool}/} | cut -d '/' -f2)
+
 	# create the output directory if not available
 	test -d "${_public_html}" || install -d -m 0755 "${_public_html}"
 
 	# create list output directory if not available
 	_listout="${_public_html}/${_shortname}"
-
 	test -d "${_listout}" || install -d -m 0755 "${_listout}"
 
 	# parse messages to create the list archive
@@ -170,7 +170,6 @@ do
 			|| install -d -m 0755 "${_listout}/${_msgmonth}"
 
 		# XXX: replace with actual mhonarc command
-		# XXX: remove last 4 lines - the list signature
 		_LANG="el" _DATE="$(_datefmtrev ${_msgmonth})" \
 			_LNAME="${_shortname}" _PUBLIC_URL="${_public_url}" \
 			_LIST_URL="${_public_url}/${_shortname}" \
