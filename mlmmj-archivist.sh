@@ -37,56 +37,67 @@ _datefmt() {
 	# the formatted date string to work on
 	_datestr="$1"
 
+	# get the year
+	_yearfmt="$(echo ${_datestr} | awk '{ print $4 }')"
+
 	# convert month name to number
 	case "$(echo ${_datestr} | awk '{ print $3 }')" in
-		Jan) _month=01 ;;
-		Feb) _month=02 ;;
-		Mar) _month=03 ;;
-		Apr) _month=04 ;;
-		May) _month=05 ;;
-		Jun) _month=06 ;;
-		Jul) _month=07 ;;
-		Aug) _month=08 ;;
-		Sep) _month=09 ;;
-		Oct) _month=10 ;;
-		Nov) _month=11 ;;
-		Dec) _month=12 ;;
+		Jan) _monthfmt=01 ;;
+		Feb) _monthfmt=02 ;;
+		Mar) _monthfmt=03 ;;
+		Apr) _monthfmt=04 ;;
+		May) _monthfmt=05 ;;
+		Jun) _monthfmt=06 ;;
+		Jul) _monthfmt=07 ;;
+		Aug) _monthfmt=08 ;;
+		Sep) _monthfmt=09 ;;
+		Oct) _monthfmt=10 ;;
+		Nov) _monthfmt=11 ;;
+		Dec) _monthfmt=12 ;;
 	esac
-
-	# get the year
-	_year="$(echo ${_datestr} | awk '{ print $4 }')"
-
 	# 'return' the complete string
-	echo "${_year}/${_month}"
+	echo "${_yearfmt}/${_monthfmt}"
 }
 
 # reverse previous function to create the date for mhonarc
 # templates
 # usage: _datefmtrev YYYY/mm
-# 'returns' a string with the date in the fmt of Month YYYY
+# 'returns' a string with the date in the fmt of Month( YYYY)
 _datefmtrev() {
 	# the formatted date string to work on
 	_datestr="$1"
 
-	_year=$(echo ${_datestr} | cut -d '/' -f 1)
+	if echo ${_datestr} | grep -q '/'; then
+		# get the year
+		_yearfmt=$(echo ${_datestr} | cut -d '/' -f 1)
+
+		# get the month number
+		_monthfmt="$(echo ${_datestr} | cut -d '/' -f 2)"
+	else
+		_monthfmt="${_datestr}"
+	fi
 
 	# convert month number to name
-	case "$(echo ${_datestr} | cut -d '/' -f 2)" in
-		01) _month="January" ;;
-		02) _month="February" ;;
-		03) _month="March" ;;
-		04) _month="April" ;;
-		05) _month="May" ;;
-		06) _month="June" ;;
-		07) _month="July" ;;
-		08) _month="August" ;;
-		09) _month="September" ;;
-		10) _month="October" ;;
-		11) _month="November" ;;
-		12) _month="December" ;;
+	case "${_monthfmt}" in
+		01) _monthfmt="January" ;;
+		02) _monthfmt="February" ;;
+		03) _monthfmt="March" ;;
+		04) _monthfmt="April" ;;
+		05) _monthfmt="May" ;;
+		06) _monthfmt="June" ;;
+		07) _monthfmt="July" ;;
+		08) _monthfmt="August" ;;
+		09) _monthfmt="September" ;;
+		10) _monthfmt="October" ;;
+		11) _monthfmt="November" ;;
+		12) _monthfmt="December" ;;
 	esac
 
-	echo "${_month} ${_year}"
+	if [ "${_yearfmt}" ]; then
+		echo "${_monthfmt} ${_yearfmt}"
+	else
+		echo "${_monthfmt}"
+	fi
 }
 
 # the default configuration file
@@ -188,8 +199,14 @@ do
 		_msg=$((${_msg} + 1))
 	done
 
-	## XXX: create the main archive page
-	## XXX: replace manual creation with a proper 'template' file
+	# install assets
+	if [ ! -d ${_public_html}/css ]; then
+		install -d -m 0755 ${_public_html}/css
+		install    -m 0644 config/template/assets/css/style.css \
+			${_public_html}/css/style.css
+	fi
+
+	## create list archive index page
 
 	# temporary main index
 	if _temp_mainindex="$(mktemp ${_workpath}/index.html.XXXXXX)"; then
@@ -198,34 +215,48 @@ do
 		_error "temp file creation failed"
 	fi
 
-	if [ ! -d ${_public_html}/css ]; then
-		install -d -m 0755 ${_public_html}/css
-		install    -m 0644 config/template/assets/css/style.css \
-			${_public_html}/css/style.css
-	fi
-
-	echo "<!DOCTYPE html>\n<html><head><title>${_shortname}</title><link rel="stylesheet" href="${_public_url}/css/style.css"></head><body>" >> ${_temp_mainindex}
-	echo "<h1>${_shortname} Archive</h1>" >> ${_temp_mainindex}
-
+	# create the list of months/years
 	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d); do
-		echo "<h2>${_year##${_listout}/}</h2>" >> ${_temp_mainindex}
+		_content="${_content}\n<div class=\"month-list\">\n"
+		_content="${_content}\t<h2>${_year##${_listout}/}</h2>\n"
+		_content="${_content}\t<table>\n<tbody>\n"
 
-		echo '<ul>' >> ${_temp_mainindex}
-
-		for _month in $(find ${_year} -mindepth 1 -maxdepth 1 -type d | sort -r)
+		for _month in $(find ${_year} -mindepth 1 -maxdepth 1 -type d \
+			| sort -r)
 		do
-			_link=$(echo ${_month} | sed -e "s@${_public_html}@${_public_url}@g")
+			# get the month formatted
+			_monthnr="${_month##${_year}/}"
 
-			echo "<li><a href="${_link}">${_month##${_year}/}</a></li>" >> \
-				${_temp_mainindex}
+			_monthfmt="$(_datefmtrev ${_monthnr})"
+
+			# the month url
+			_monthurl=$(echo ${_month} | \
+				sed -e "s@${_public_html}@${_public_url}@g")
+
+			# date and thread index links
+			_monthindex="<a href=\"${_monthurl}\">date index</a>"
+			_monthtindex="<a href=\"${_monthurl}/tindex.html\">thread index</a>"
+
+#			_content="${_content}\t<li><strong>${_monthfmt}</strong>"
+#			_content="${_content}${_monthindex}${_monthtindex}</li>\n"
+			_content="${_content}\t<tr>\n"
+			_content="${_content}\t<th>${_monthfmt}</th>\n"
+			_content="${_content}\t<td>${_monthindex}</td>\n"
+			_content="${_content}\t<td>${_monthtindex}</td>\n</tr>\n"
 		done
 
-		echo '</ul>' >> ${_temp_mainindex}
+		_content="${_content}\t</tbody>\n</table>\n</div>"
 	done
 
-	echo '</body></html>' >> ${_temp_mainindex}
+	# write content in the temp file to avoid race conditions
+	sed     -e "s@__LISTNAME__@${_shortname}@g" \
+		-e "s@__PUBURL__@${_public_url}@g"  \
+		-e "s@__CONTENT__@${_content}@g"    \
+		./config/template/listpage.tmpl > ${_temp_mainindex}
 
 	# move temp main index to the list archive's index.html
 	mv ${_temp_mainindex} ${_listout}/index.html
 	chmod 0644 ${_listout}/index.html
+
+	unset _content
 done
