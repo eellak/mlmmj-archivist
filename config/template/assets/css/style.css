@@ -59,3 +59,17 @@ h1 {
 	list-style-type: none;
 	padding: 0;
 }
+
+.month-list {
+	margin-top: 40px;
+}
+.month-list h2 {
+	margin-bottom: 10px;
+}
+.month-list th {
+	text-align: left;
+	width: 140px;
+}
+.month-list td {
+	width: 100px;
+}
