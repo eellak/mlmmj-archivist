@@ -275,7 +275,7 @@ if [ "${_mlists}" ]; then
 
 	# create links to available lists
 	for _mlist in ${_mlists}; do
-		_mlisturl="<h3 class="listname"><a href=\"${_public_url}/${_mlist}/\">${_mlist}</a></h3>"
+		_mlisturl="<h3 class="listname"><a href=\"${_public_url}/${_mlist}/listinfo.html\">${_mlist}</a></h3>"
 		_content="${_content}${_mlisturl}"
 
 		_workpath="$(find ${_mlmmj_spool} -type d -name ${_mlist})/archivist"
