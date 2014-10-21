@@ -73,3 +73,7 @@ h1 {
 .month-list td {
 	width: 100px;
 }
+
+h3.listname {
+	margin: 30px 0 10px;
+}
