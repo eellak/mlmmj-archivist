@@ -126,8 +126,7 @@ else
 fi
 
 # loop over the mailing lists that contain the dir archivist
-for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist')
-do
+for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist'); do
 	# clear vars to avoid confusion
 	unset _curindex _lastindex
 
@@ -208,6 +207,71 @@ do
 		install    -m 0644 config/template/assets/css/style.css \
 			${_public_html}/css/style.css
 	fi
+
+	## create list information page
+
+	# temporary listinfo page
+	if _temp_listinfo="$(mktemp ${_workpath}/listinfo.html.XXXXXX)"; then
+		trap 'rm -f ${_temp_listinfo}; exit 1' 0 1 15
+	else
+		_error "temp file creation failed"
+	fi
+
+	# if the list contains long description append it to the page content
+	test -s ${_workpath}/longdesc && \
+		_content="${_content} $(tr '\n' ' ' < ${_workpath}/longdesc)"
+
+	# get the list addresses
+	_addrlist="$(cat ${_listpath}/control/listaddress)"
+	_addrsub=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+subscribe:")
+	_addrsubdig=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+subscribe-digest:")
+	_addrsubnomail=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+subscribe-nomail:")
+	_addrunsub=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+unsubscribe:")
+	_addrhelp=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+help:")
+	_addrfaq=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+faq:")
+	_addrowner="$(cat ${_listpath}/control/owner)"
+
+	# handle closed subscriptions
+	if      [ -e ${_listpath}/control/closedlist    ] ||
+		[ -e ${_listpath}/control/closedlistsub ]
+	then
+		_sedsub1="s@\[OPENLIST\].*\[OPENLIST\]@@g"
+		_sedsub2="s@\[CLOSEDLIST\]@@g"
+	else
+		_sedsub1="s@\[CLOSEDLIST\].*\[CLOSEDLIST\]@@g"
+		_sedsub2="s@\[OPENLIST\]@@g"
+	fi
+
+	# handle digest subscriptions
+	test -e ${_listpath}/control/nodigestsub           \
+		&& _sedsubdig="s@\[SUBDIG\].*\[SUBDIG\]@@" \
+		|| _sedsubdig="s@\[SUBDIG\]@@g"
+
+	# handle nomail subscriptions
+	test -e ${_listpath}/control/nonomailsub                    \
+		&& _sedsubnomail="s@\[SUBNOMAIL\].*\[SUBNOMAIL\]@@" \
+		|| _sedsubnomail="s@\[SUBNOMAIL\]@@g"
+
+	# get the correct mailing list addresses
+	sed     -e "s@__LISTNAME__@${_shortname}@g" \
+		-e "s@__PUBURL__@${_public_url}@g" \
+		-e "s@__CONTENT__@${_content}@g" \
+		-e "s#__ADDRLIST__#${_addrlist}#g" \
+		-e "s#__ADDRSUB__#${_addrsub}#g" \
+		-e "s#__ADDRSUBDIG__#${_addrsubdig}#g" \
+		-e "s#__ADDRSUBNOMAIL__#${_addrsubnomail}#g" \
+		-e "s#__ADDRUNSUB__#${_addrunsub}#g" \
+		-e "s#__ADDRHELP__#${_addrhelp}#g" \
+		-e "s#__ADDRFAQ__#${_addrfaq}#g" \
+		-e "s#__ADDROWNER__#${_addrowner}#g" \
+		-e "${_sedsub1}" -e "${_sedsub2}" \
+		-e "${_sedsubdig}" -e "${_sedsubnomail}" \
+		./config/template/listinfo.tmpl > ${_temp_listinfo}
+
+	mv ${_temp_listinfo} ${_listout}/listinfo.html
+	chmod 0644 ${_listout}/listinfo.html
+
+	unset _content
 
 	## create list archive index page
 
