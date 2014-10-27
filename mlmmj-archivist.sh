@@ -105,25 +105,10 @@ _datefmtrev() {
 # is available
 _conffile="./mlmmj-archivist.conf.sample"
 
-# parse the configuration file
-if [ -s ${_conffile} ]; then
-	# get the mlmmj spool path
-	_mlmmj_spool=$(awk -F '=' \
-		'/_mlmmj_spool/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
-		${_conffile})
-
-	# get the public html path
-	_public_html=$(awk -F '=' \
-		'/_public_html/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
-		${_conffile})
-
-	# get the public url
-	_public_url=$(awk -F '=' \
-		'/_public_url/ {gsub("\"", ""); gsub("'\''", ""); print $2}' \
-		${_conffile})
-else
-	_error "configuration file not found"
-fi
+# source the configuration file
+[ -s ${_conffile} ] \
+	&& . ${_conffile} \
+	|| _error "configuration file not found"
 
 # loop over the mailing lists that contain the dir archivist
 for _workpath in $(find ${_mlmmj_spool} -maxdepth 3 -type d -name 'archivist')
