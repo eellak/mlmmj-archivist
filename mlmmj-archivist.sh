@@ -110,6 +110,18 @@ _conffile="./mlmmj-archivist.conf.sample"
 	&& . ${_conffile} \
 	|| _error "configuration file not found"
 
+# initialize mhonarc command arguments variable
+# set default language to english
+_mhonarc_args="-lang en_US -definevar HTML-LANG='en'"
+
+# the <html> language
+_html_lang="$(echo ${_language} | cut -d '_' -f 1)"
+
+# set language
+if [ ${_language} != 'en_US' ]; then
+	_mhonarc_args="-lang ${_language} -definevar HTML-LANG='${_html_lang}'"
+fi
+
 # loop over the mailing lists that contain the dir archivist
 for _workpath in $(find ${_mlmmj_spool} -maxdepth 3 -type d -name 'archivist')
 do
@@ -169,13 +181,13 @@ do
 			|| install -d -m 0755 "${_listout}/${_msgmonth}"
 
 		# XXX: replace with actual mhonarc command
-		_LANG="el" _DATE="$(_datefmtrev ${_msgmonth})" \
+		_DATE="$(_datefmtrev ${_msgmonth})" \
 			_LNAME="${_shortname}" _PUBLIC_URL="${_public_url}" \
 			_LIST_URL="${_public_url}/${_shortname}" \
-			mhonarc -rcfile ./config/template/mhonarc/mhonarc.mrc \
+			mhonarc -rcfile ./templates/default/mhonarc/mhonarc.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
-			-lang "${_LANG}" \
 			-subjectstripcode "s/\[${_shortname}\]//;" \
+			${_mhonarc_args} \
 			-add < "${_msgfile}"
 
 		# update last index counter on success
@@ -189,7 +201,7 @@ do
 	# XXX: fix paths when done
 	if [ ! -d ${_public_html}/css ]; then
 		install -d -m 0755 ${_public_html}/css
-		install    -m 0644 config/template/assets/css/style.css \
+		install    -m 0644 ./templates/default/assets/css/style.css \
 			${_public_html}/css/style.css
 	fi
 
@@ -244,7 +256,8 @@ do
 		|| _sedsubnomail="s@\[SUBNOMAIL\]@@g"
 
 	# get the correct mailing list addresses
-	sed     -e "s@__LISTNAME__@${_shortname}@g" \
+	sed     -e "s@__HTMLLANG__@${_html_lang}@g" \
+		-e "s@__LISTNAME__@${_shortname}@g" \
 		-e "s@__PUBURL__@${_public_url}@g" \
 		-e "s@__CONTENT__@${_content}@g" \
 		-e "s#__ADDRLIST__#${_addrlist}#g" \
@@ -257,7 +270,7 @@ do
 		-e "s#__ADDROWNER__#${_addrowner}#g" \
 		-e "${_sedsub1}" -e "${_sedsub2}" \
 		-e "${_sedsubdig}" -e "${_sedsubnomail}" \
-		./config/template/listinfo.tmpl > ${_temp_listinfo}
+		./templates/default/listinfo.tmpl > ${_temp_listinfo}
 
 	mv ${_temp_listinfo} ${_listout}/listinfo.html
 	chmod 0644 ${_listout}/listinfo.html
@@ -307,10 +320,11 @@ do
 	done
 
 	# write content in the temp file to avoid race conditions
-	sed     -e "s@__LISTNAME__@${_shortname}@g" \
+	sed     -e "s@__HTMLLANG__@${_html_lang}@g"  \
+		-e "s@__LISTNAME__@${_shortname}@g" \
 		-e "s@__PUBURL__@${_public_url}@g"  \
 		-e "s@__CONTENT__@${_content}@g"    \
-		./config/template/listpage.tmpl > ${_temp_mainindex}
+		./templates/default/listpage.tmpl > ${_temp_mainindex}
 
 	# move temp main index to the list archive's index.html
 	mv ${_temp_mainindex} ${_listout}/index.html
@@ -343,9 +357,10 @@ if [ "${_mlists}" ]; then
 	done
 
 	# output homepage to the temp file
-	sed     -e "s@__PUBURL__@${_public_url}@g" \
+	sed     -e "s@__HTMLLANG__@${_html_lang}@g" \
+		-e "s@__PUBURL__@${_public_url}@g" \
 		-e "s@__CONTENT__@${_content}@g" \
-		./config/template/homepage.tmpl > ${_temp_homeindex}
+		./templates/default/homepage.tmpl > ${_temp_homeindex}
 
 	mv ${_temp_homeindex} ${_public_html}/index.html
 	chmod 0644 ${_public_html}/index.html
