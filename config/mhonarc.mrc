@@ -2,7 +2,7 @@
 <!-- http://www.mhonarc.org/release/MHonArc/2.6.7/doc/resources -->
 <!-- for more information -->
 
-<!-- use utf-8 -->
+<!-- use utf-8 by default -->
 <TEXTENCODE>
 utf-8; MHonArc::UTF8::to_utf8; MHonArc/UTF8.pm
 </TEXTENCODE>
@@ -80,3 +80,10 @@ s/@/ [ at ] /; s/\./ [ dot ] /g;
 <!-- apply the address filter in body content too -->
 <MODIFYBODYADDRESSES>
 </MODIFYBODYADDRESSES>
+
+<!-- the template -->
+<!-- XXX: replace with template name var [-definevar does not work with rcfile -->
+<!-- XXX: replace with template path from Makefile -->
+<INCLUDE>
+/home/manolis/zegebook/templates/default/mhonarc/template.mrc
+</INCLUDE>

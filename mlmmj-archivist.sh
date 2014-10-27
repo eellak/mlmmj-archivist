@@ -122,6 +122,9 @@ if [ ${_language} != 'en_US' ]; then
 	_mhonarc_args="-lang ${_language} -definevar HTML-LANG='${_html_lang}'"
 fi
 
+# set the template
+_mhonarc_args="${_mhonarc_args} -definevar TEMPLATE-NAME='${_template}'"
+
 # loop over the mailing lists that contain the dir archivist
 for _workpath in $(find ${_mlmmj_spool} -maxdepth 3 -type d -name 'archivist')
 do
@@ -184,10 +187,9 @@ do
 		_DATE="$(_datefmtrev ${_msgmonth})" \
 			_LNAME="${_shortname}" _PUBLIC_URL="${_public_url}" \
 			_LIST_URL="${_public_url}/${_shortname}" \
-			mhonarc -rcfile ./templates/default/mhonarc/mhonarc.mrc \
+			mhonarc ${_mhonarc_args} -rcfile ./config/mhonarc.mrc \
 			-outdir "${_listout}/${_msgmonth}" \
 			-subjectstripcode "s/\[${_shortname}\]//;" \
-			${_mhonarc_args} \
 			-add < "${_msgfile}"
 
 		# update last index counter on success
