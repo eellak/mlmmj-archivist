@@ -8,7 +8,7 @@
 <!-- thread index beginning -->
 <TIDXPGBEGIN>
 <!DOCTYPE html>
-<html lang="$ENV(_LANG)$">
+<html lang="$HTML-LANG$">
 <head>
 	<meta charset="utf-8">
 	<title>$TIDXTITLE$</title>

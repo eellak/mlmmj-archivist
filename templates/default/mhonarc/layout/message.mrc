@@ -3,7 +3,7 @@
 <!-- message beginning -->
 <MSGPGBEGIN>
 <!DOCTYPE html>
-<html lang="el">
+<html lang="$HTML-LANG$">
 <head>
 	<meta charset="utf-8">
 	<title>$SUBJECTNA$</title>
