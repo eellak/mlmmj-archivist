@@ -126,7 +126,8 @@ else
 fi
 
 # loop over the mailing lists that contain the dir archivist
-for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist'); do
+for _workpath in $(find ${_mlmmj_spool} -maxdepth 3 -type d -name 'archivist')
+do
 	# clear vars to avoid confusion
 	unset _curindex _lastindex
 
@@ -192,8 +193,6 @@ for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist'); do
 			-subjectstripcode "s/\[${_shortname}\]//;" \
 			-add < "${_msgfile}"
 
-		# XXX separate attachments (paths/urls)
-
 		# update last index counter on success
 		[ "$?" -eq 0 ] && echo ${_msg} > ${_workpath}/lastindex
 
@@ -202,6 +201,7 @@ for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist'); do
 	done
 
 	# install assets
+	# XXX: fix paths when done
 	if [ ! -d ${_public_html}/css ]; then
 		install -d -m 0755 ${_public_html}/css
 		install    -m 0644 config/template/assets/css/style.css \
@@ -223,12 +223,18 @@ for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist'); do
 
 	# get the list addresses
 	_addrlist="$(cat ${_listpath}/control/listaddress)"
-	_addrsub=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+subscribe:")
-	_addrsubdig=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+subscribe-digest:")
-	_addrsubnomail=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+subscribe-nomail:")
-	_addrunsub=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+unsubscribe:")
-	_addrhelp=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+help:")
-	_addrfaq=$(echo ${_addrlist} | sed -e "s:${_shortname}:${_shortname}+faq:")
+	_addrsub=$(echo ${_addrlist} |
+		sed -e "s:${_shortname}:${_shortname}+subscribe:")
+	_addrsubdig=$(echo ${_addrlist} |
+		sed -e "s:${_shortname}:${_shortname}+subscribe-digest:")
+	_addrsubnomail=$(echo ${_addrlist} |
+		sed -e "s:${_shortname}:${_shortname}+subscribe-nomail:")
+	_addrunsub=$(echo ${_addrlist} |
+		sed -e "s:${_shortname}:${_shortname}+unsubscribe:")
+	_addrhelp=$(echo ${_addrlist} |
+		sed -e "s:${_shortname}:${_shortname}+help:")
+	_addrfaq=$(echo ${_addrlist} |
+		sed -e "s:${_shortname}:${_shortname}+faq:")
 	_addrowner="$(cat ${_listpath}/control/owner)"
 
 	# handle closed subscriptions
@@ -288,8 +294,8 @@ for _workpath in $(find ${_mlmmj_spool} -type d -name 'archivist'); do
 		_content="${_content}\t\t\t<h2>${_year##${_listout}/}</h2>\n\n"
 		_content="${_content}\t\t\t<table>\n\t\t\t\t<tbody>\n"
 
-		for _month in $(find ${_year} -mindepth 1 -maxdepth 1 -type d \
-			| sort -r)
+		for _month in $(find ${_year} -mindepth 1 -maxdepth 1 -type d |
+			sort -r)
 		do
 			# get the month formatted
 			_monthnr="${_month##${_year}/}"
@@ -339,10 +345,11 @@ if [ "${_mlists}" ]; then
 
 	# create links to available lists
 	for _mlist in ${_mlists}; do
-		_mlisturl="<h3 class="listname"><a href=\"${_public_url}/${_mlist}/listinfo.html\">${_mlist}</a></h3>"
+		_mlisturl="<h3 class=\"listname\"><a href=\"${_public_url}/${_mlist}/listinfo.html\">${_mlist}</a></h3>"
 		_content="${_content}${_mlisturl}"
 
-		_workpath="$(find ${_mlmmj_spool} -type d -name ${_mlist})/archivist"
+		_workpath="$(find ${_mlmmj_spool} -maxdepth 3 -type d \
+			-name ${_mlist})/archivist"
 
 		# if the list contains short description append it to
 		# the page content
