@@ -12,3 +12,9 @@ _public_html="/home/manolis/web"
 # the web url root
 # XXX: replace when done
 _public_url="http://localhost:2080/web"
+
+# the template
+_template="default"
+
+# the output language in ISO 639-1 format
+_language="en"
