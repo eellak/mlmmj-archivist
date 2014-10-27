@@ -103,7 +103,7 @@ _datefmtrev() {
 # the default configuration file
 # XXX: switch to the actual configuration file after Makefile
 # is available
-_conffile="./config/mlmmj-archivist.conf.sample"
+_conffile="./mlmmj-archivist.conf.sample"
 
 # parse the configuration file
 if [ -s ${_conffile} ]; then
