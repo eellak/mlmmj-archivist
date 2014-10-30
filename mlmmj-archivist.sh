@@ -198,7 +198,7 @@ do
 			-definevar LIST-URL="'${_public_url}/${_shortname}'" \
 			-outdir "${_listout}/${_msgmonth}"                   \
 			-subjectstripcode "s/\[${_shortname}\]//;"           \
-			-add < "${_msgfile}"
+			-quiet -add < "${_msgfile}"
 
 		# update last index counter on success
 		[ "$?" -eq 0 ] && echo ${_msg} > ${_workpath}/lastindex
