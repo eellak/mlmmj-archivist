@@ -6,14 +6,13 @@
 _mlmmj_spool="/var/spool/mlmmj"
 
 # the web output directory
-# XXX: replace with actual path when done
-_public_html="/home/manolis/web"
+_public_html="/var/www/lists"
 
 # the web url root
-# XXX: replace when done
-_public_url="http://localhost:2080/web"
+_public_url="http://lists.example.tld"
 
-# the template
+# the template name
+# check __SHAREDIR__/templates for available templates
 _template="default"
 
 # the output language in ISO 639-1 (language) and ISO 3166 (country)

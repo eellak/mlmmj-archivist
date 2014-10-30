@@ -101,12 +101,10 @@ _datefmtrev() {
 }
 
 # the default configuration file
-# XXX: switch to the actual configuration file after Makefile
-# is available
-_conffile="./config/mlmmj-archivist.conf.sample"
+_conffile="__SYSCONFDIR__/mlmmj-archivist.conf"
 
 # source the configuration file
-[ -s ${_conffile} ] \
+[ -s ${_conffile} ]       \
 	&& . ${_conffile} \
 	|| _error "configuration file not found"
 
@@ -123,8 +121,7 @@ if [ ${_language} != 'en_US' ]; then
 fi
 
 # set the template
-# XXX: fix paths
-_mhontemplate="./templates/${_template}/mhonarc/template.mrc"
+_mhontemplate="__SHAREDIR__/templates/${_template}/mhonarc/template.mrc"
 [ -s "${_mhontemplate}" ] \
 	&& _mhonarc_args="${_mhonarc_args} \
 		-definevar TEMPLATE-NAME='${_template}' \
@@ -190,8 +187,7 @@ do
 			|| install -d -m 0755 "${_listout}/${_msgmonth}"
 
 		# create the web archives
-		# XXX: replace configuration path when done
-		mhonarc -rcfile ./config/mhonarc.mrc ${_mhonarc_args}        \
+		mhonarc -rcfile __SYSCONFDIR__/mhonarc.mrc ${_mhonarc_args}  \
 			-definevar DATE-FMT="'$(_datefmtrev ${_msgmonth})'"  \
 			-definevar LIST-NAME="'${_shortname}'"               \
 			-definevar PUBLIC-URL="'${_public_url}'"             \
@@ -213,9 +209,8 @@ do
 		install -d -m 0755 ${_public_html}/assets
 
 	# synchronize assets from template
-	# XXX: fix paths when done
-	rsync -aq --delete --delete-after        \
-		./templates/${_template}/assets/ \
+	rsync -aq --delete --delete-after                   \
+		__SHAREDIR__/templates/${_template}/assets/ \
 		${_public_html}/assets/
 
 	## create list information page
@@ -271,22 +266,22 @@ do
 		|| _sedsubnomail="s@\[SUBNOMAIL\]@@g"
 
 	# get the correct mailing list addresses
-	# XXX: fix template path
-	sed     -e "s@__HTMLLANG__@${_html_lang}@g" \
-		-e "s@__LISTNAME__@${_shortname}@g" \
-		-e "s@__PUBURL__@${_public_url}@g" \
-		-e "s@__CONTENT__@${_content}@g" \
-		-e "s#__ADDRLIST__#${_addrlist}#g" \
-		-e "s#__ADDRSUB__#${_addrsub}#g" \
-		-e "s#__ADDRSUBDIG__#${_addrsubdig}#g" \
-		-e "s#__ADDRSUBNOMAIL__#${_addrsubnomail}#g" \
-		-e "s#__ADDRUNSUB__#${_addrunsub}#g" \
-		-e "s#__ADDRHELP__#${_addrhelp}#g" \
-		-e "s#__ADDRFAQ__#${_addrfaq}#g" \
-		-e "s#__ADDROWNER__#${_addrowner}#g" \
-		-e "${_sedsub1}" -e "${_sedsub2}" \
-		-e "${_sedsubdig}" -e "${_sedsubnomail}" \
-		./templates/${_template}/listinfo.tmpl > ${_temp_listinfo}
+	sed     -e "s@__HTMLLANG__@${_html_lang}@g"               \
+		-e "s@__LISTNAME__@${_shortname}@g"               \
+		-e "s@__PUBURL__@${_public_url}@g"                \
+		-e "s@__CONTENT__@${_content}@g"                  \
+		-e "s#__ADDRLIST__#${_addrlist}#g"                \
+		-e "s#__ADDRSUB__#${_addrsub}#g"                  \
+		-e "s#__ADDRSUBDIG__#${_addrsubdig}#g"            \
+		-e "s#__ADDRSUBNOMAIL__#${_addrsubnomail}#g"      \
+		-e "s#__ADDRUNSUB__#${_addrunsub}#g"              \
+		-e "s#__ADDRHELP__#${_addrhelp}#g"                \
+		-e "s#__ADDRFAQ__#${_addrfaq}#g"                  \
+		-e "s#__ADDROWNER__#${_addrowner}#g"              \
+		-e "${_sedsub1}" -e "${_sedsub2}"                 \
+		-e "${_sedsubdig}" -e "${_sedsubnomail}"          \
+		__SHAREDIR__/templates/${_template}/listinfo.tmpl \
+		> ${_temp_listinfo}
 
 	mv ${_temp_listinfo} ${_listout}/listinfo.html
 	chmod 0644 ${_listout}/listinfo.html
@@ -336,12 +331,12 @@ do
 	done
 
 	# write content in the temp file to avoid race conditions
-	# XXX: fix template path
-	sed     -e "s@__HTMLLANG__@${_html_lang}@g"  \
-		-e "s@__LISTNAME__@${_shortname}@g" \
-		-e "s@__PUBURL__@${_public_url}@g"  \
-		-e "s@__CONTENT__@${_content}@g"    \
-		./templates/${_template}/listpage.tmpl > ${_temp_mainindex}
+	sed     -e "s@__HTMLLANG__@${_html_lang}@g"               \
+		-e "s@__LISTNAME__@${_shortname}@g"               \
+		-e "s@__PUBURL__@${_public_url}@g"                \
+		-e "s@__CONTENT__@${_content}@g"                  \
+		__SHAREDIR__/templates/${_template}/listpage.tmpl \
+		> ${_temp_mainindex}
 
 	# move temp main index to the list archive's index.html
 	mv ${_temp_mainindex} ${_listout}/index.html
@@ -374,11 +369,11 @@ if [ "${_mlists}" ]; then
 	done
 
 	# output homepage to the temp file
-	# XXX: fix template path
-	sed     -e "s@__HTMLLANG__@${_html_lang}@g" \
-		-e "s@__PUBURL__@${_public_url}@g" \
-		-e "s@__CONTENT__@${_content}@g" \
-		./templates/${_template}/homepage.tmpl > ${_temp_homeindex}
+	sed     -e "s@__HTMLLANG__@${_html_lang}@g"               \
+		-e "s@__PUBURL__@${_public_url}@g"                \
+		-e "s@__CONTENT__@${_content}@g"                  \
+		__SHAREDIR__/templates/${_template}/homepage.tmpl \
+		> ${_temp_homeindex}
 
 	mv ${_temp_homeindex} ${_public_html}/index.html
 	chmod 0644 ${_public_html}/index.html
