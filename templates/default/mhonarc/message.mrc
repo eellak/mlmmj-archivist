@@ -7,7 +7,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>$SUBJECTNA$</title>
-	<link rel="stylesheet" href="$PUBLIC-URL$/css/style.css">
+	<link rel="stylesheet" href="$PUBLIC-URL$/assets/css/style.css">
 </head>
 
 <body>

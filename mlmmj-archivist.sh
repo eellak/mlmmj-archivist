@@ -201,13 +201,16 @@ do
 		_msg=$((${_msg} + 1))
 	done
 
-	# install assets
+	# create the assets directory if not available, first,
+	# to have the rsync --delete option work correctly
+	test -d ${_public_html}/assets || \
+		install -d -m 0755 ${_public_html}/assets
+
+	# synchronize assets from template
 	# XXX: fix paths when done
-	if [ ! -d ${_public_html}/css ]; then
-		install -d -m 0755 ${_public_html}/css
-		install    -m 0644 ./templates/default/assets/css/style.css \
-			${_public_html}/css/style.css
-	fi
+	rsync -aq --delete --delete-after        \
+		./templates/${_template}/assets/ \
+		${_public_html}/assets/
 
 	## create list information page
 

@@ -12,7 +12,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>$TIDXTITLE$</title>
-	<link rel="stylesheet" href="$PUBLIC-URL$/css/style.css">
+	<link rel="stylesheet" href="$PUBLIC-URL$/assets/css/style.css">
 </head>
 
 <body>
