@@ -2,7 +2,7 @@
 
 <!-- the index title -->
 <TITLE>
-[$ENV(_LNAME)$] archives by date for $DATE-FMT$
+[$LIST-NAME$] archives by date for $DATE-FMT$
 </TITLE>
 
 <!-- index beginning -->

@@ -184,10 +184,11 @@ do
 			|| install -d -m 0755 "${_listout}/${_msgmonth}"
 
 		# XXX: replace with actual mhonarc command
-		_LNAME="${_shortname}" _PUBLIC_URL="${_public_url}" \
+		_PUBLIC_URL="${_public_url}" \
 		_LIST_URL="${_public_url}/${_shortname}" \
 		mhonarc -rcfile ./config/mhonarc.mrc ${_mhonarc_args} \
 			-definevar DATE-FMT="'$(_datefmtrev ${_msgmonth})'" \
+			-definevar LIST-NAME="'${_shortname}'" \
 			-outdir "${_listout}/${_msgmonth}" \
 			-subjectstripcode "s/\[${_shortname}\]//;" \
 			-add < "${_msgfile}"

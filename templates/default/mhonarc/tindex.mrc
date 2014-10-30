@@ -2,7 +2,7 @@
 
 <!-- the thread index title -->
 <TTITLE>
-[$ENV(_LNAME)$] archives by thread for $DATE-FMT$
+[$LIST-NAME$] archives by thread for $DATE-FMT$
 </TTITLE>
 
 <!-- thread index beginning -->
