@@ -118,6 +118,10 @@ _html_lang="$(echo ${_language} | cut -d '_' -f 1)"
 # set language
 if [ ${_language} != 'en_US' ]; then
 	_mhonarc_args="-lang ${_language} -definevar HTML-LANG='${_html_lang}'"
+
+	test -d "__SHAREDIR__/templates/${_template}.${_html_lang}" \
+		&& _template="${_template}.${_html_lang}" \
+		|| echo "no localized template for ${_language}. fallback to en"
 fi
 
 # set the template
