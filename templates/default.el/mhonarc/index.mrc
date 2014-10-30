@@ -2,7 +2,7 @@
 
 <!-- the index title -->
 <TITLE>
-[$LIST-NAME$] archives by date for $DATE-FMT$
+[$LIST-NAME$] ημερολογιακό αρχείο για $DATE-FMT$
 </TITLE>
 
 <!-- index beginning -->
@@ -18,11 +18,11 @@
 <body>
 	<div id="page">
 		<div id="top-menu">
-			<a href="$PUBLIC-URL$">home</a>
+			<a href="$PUBLIC-URL$">αρχική</a>
 			<span class="sep">|</span>
-			<a href="$LIST-URL$/listinfo.html">list info</a>
+			<a href="$LIST-URL$/listinfo.html">πληροφορίες</a>
 			<span class="sep">|</span>
-			<a href="$LIST-URL$">list archive</a>
+			<a href="$LIST-URL$">αρχείο</a>
 			<span class="sep">|</span>
 			<a href="$IDXFNAME$" class="current-item">date index</a>
 			<span class="sep">|</span>

@@ -13,11 +13,11 @@
 <body>
 	<div id="page">
 		<div id="top-menu">
-			<a href="$PUBLIC-URL$">home</a>
+			<a href="$PUBLIC-URL$">αρχική</a>
 			<span class="sep">|</span>
-			<a href="$LIST-URL$/listinfo.html">list info</a>
+			<a href="$LIST-URL$/listinfo.html">πληροφορίες</a>
 			<span class="sep">|</span>
-			<a href="$LIST-URL$">list archive</a>
+			<a href="$LIST-URL$">αρχείο</a>
 			<span class="sep">|</span>
 			<a href="$IDXFNAME$">date index</a>
 			<span class="sep">|</span>
@@ -56,7 +56,7 @@
 <!-- bottom links -->
 <BOTLINKS>
 			<div id="msg-nav">
-				<h3>message navigation</h3>
+				<h3>πλοήγηση μηνυμάτων</h3>
 
 				<ul>
 					$LINK(PREV)$
@@ -69,23 +69,23 @@
 
 <!-- next/prev links -->
 <NEXTLINK>
-<li>next by date: <strong><a href="$MSG(NEXT)$">$SUBJECT(NEXT)$</a></strong></li>
+<li>επόμενο ημερολογιακά: <strong><a href="$MSG(NEXT)$">$SUBJECT(NEXT)$</a></strong></li>
 </NEXTLINK>
 <PREVLINK>
-<li>previous by date: <strong><a href="$MSG(PREV)$">$SUBJECT(PREV)$</a></strong></li>
+<li>προηγούμενο ημερολογιακά: <strong><a href="$MSG(PREV)$">$SUBJECT(PREV)$</a></strong></li>
 </PREVLINK>
 
 <TNEXTLINK>
-<li>next by thread: <strong><a href="$MSG(TNEXT)$">$SUBJECT(TNEXT)$</a></strong></li>
+<li>επόμενο βάσει θέματος: <strong><a href="$MSG(TNEXT)$">$SUBJECT(TNEXT)$</a></strong></li>
 </TNEXTLINK>
 <TPREVLINK>
-<li>previous by thread: <strong><a href="$MSG(TPREV)$">$SUBJECT(TPREV)$</a></strong></li>
+<li>προηγούμενο βάσει θέματος: <strong><a href="$MSG(TPREV)$">$SUBJECT(TPREV)$</a></strong></li>
 </TPREVLINK>
 
 <!-- follow up links messages -->
 <FOLUPBEGIN>
 			<div id="followups">
-				<h3>replies</h2>
+				<h3>απαντήσεις</h2>
 
 				<ul>
 </FOLUPBEGIN>
@@ -102,7 +102,7 @@
 <!-- explicit reference links messages -->
 <REFSBEGIN>
 			<div id="msg-ref">
-				<h3>references</h3>
+				<h3>αναφορές</h3>
 
 				<ul>
 </REFSBEGIN>
