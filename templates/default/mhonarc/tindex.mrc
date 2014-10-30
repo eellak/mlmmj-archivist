@@ -20,9 +20,9 @@
 		<div id="top-menu">
 			<a href="$PUBLIC-URL$">home</a>
 			<span class="sep">|</span>
-			<a href="$ENV(_LIST_URL)$/listinfo.html">list info</a>
+			<a href="$LIST-URL$/listinfo.html">list info</a>
 			<span class="sep">|</span>
-			<a href="$ENV(_LIST_URL)$">list archive</a>
+			<a href="$LIST-URL$">list archive</a>
 			<span class="sep">|</span>
 			<a href="$IDXFNAME$">date index</a>
 			<span class="sep">|</span>

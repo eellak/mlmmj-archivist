@@ -7,17 +7,17 @@
 <head>
 	<meta charset="utf-8">
 	<title>$SUBJECTNA$</title>
-	<link rel="stylesheet" href="$ENV(_PUBLIC_URL)$/css/style.css">
+	<link rel="stylesheet" href="$PUBLIC-URL$/css/style.css">
 </head>
 
 <body>
 	<div id="page">
 		<div id="top-menu">
-			<a href="$ENV(_PUBLIC_URL)$">home</a>
+			<a href="$PUBLIC-URL$">home</a>
 			<span class="sep">|</span>
-			<a href="$ENV(_LIST_URL)$/listinfo.html">list info</a>
+			<a href="$LIST-URL$/listinfo.html">list info</a>
 			<span class="sep">|</span>
-			<a href="$ENV(_LIST_URL)$">list archive</a>
+			<a href="$LIST-URL$">list archive</a>
 			<span class="sep">|</span>
 			<a href="$IDXFNAME$">date index</a>
 			<span class="sep">|</span>
