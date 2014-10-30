@@ -123,7 +123,13 @@ if [ ${_language} != 'en_US' ]; then
 fi
 
 # set the template
-_mhonarc_args="${_mhonarc_args} -definevar TEMPLATE-NAME='${_template}'"
+# XXX: fix paths
+_mhontemplate="./templates/${_template}/mhonarc/template.mrc"
+[ -s "${_mhontemplate}" ] \
+	&& _mhonarc_args="${_mhonarc_args} \
+		-definevar TEMPLATE-NAME='${_template}' \
+		-rcfile ${_mhontemplate}" \
+	|| _error "the selected template is not available"
 
 # loop over the mailing lists that contain the dir archivist
 for _workpath in $(find ${_mlmmj_spool} -maxdepth 3 -type d -name 'archivist')
@@ -265,6 +271,7 @@ do
 		|| _sedsubnomail="s@\[SUBNOMAIL\]@@g"
 
 	# get the correct mailing list addresses
+	# XXX: fix template path
 	sed     -e "s@__HTMLLANG__@${_html_lang}@g" \
 		-e "s@__LISTNAME__@${_shortname}@g" \
 		-e "s@__PUBURL__@${_public_url}@g" \
@@ -279,7 +286,7 @@ do
 		-e "s#__ADDROWNER__#${_addrowner}#g" \
 		-e "${_sedsub1}" -e "${_sedsub2}" \
 		-e "${_sedsubdig}" -e "${_sedsubnomail}" \
-		./templates/default/listinfo.tmpl > ${_temp_listinfo}
+		./templates/${_template}/listinfo.tmpl > ${_temp_listinfo}
 
 	mv ${_temp_listinfo} ${_listout}/listinfo.html
 	chmod 0644 ${_listout}/listinfo.html
@@ -329,11 +336,12 @@ do
 	done
 
 	# write content in the temp file to avoid race conditions
+	# XXX: fix template path
 	sed     -e "s@__HTMLLANG__@${_html_lang}@g"  \
 		-e "s@__LISTNAME__@${_shortname}@g" \
 		-e "s@__PUBURL__@${_public_url}@g"  \
 		-e "s@__CONTENT__@${_content}@g"    \
-		./templates/default/listpage.tmpl > ${_temp_mainindex}
+		./templates/${_template}/listpage.tmpl > ${_temp_mainindex}
 
 	# move temp main index to the list archive's index.html
 	mv ${_temp_mainindex} ${_listout}/index.html
@@ -366,10 +374,11 @@ if [ "${_mlists}" ]; then
 	done
 
 	# output homepage to the temp file
+	# XXX: fix template path
 	sed     -e "s@__HTMLLANG__@${_html_lang}@g" \
 		-e "s@__PUBURL__@${_public_url}@g" \
 		-e "s@__CONTENT__@${_content}@g" \
-		./templates/default/homepage.tmpl > ${_temp_homeindex}
+		./templates/${_template}/homepage.tmpl > ${_temp_homeindex}
 
 	mv ${_temp_homeindex} ${_public_html}/index.html
 	chmod 0644 ${_public_html}/index.html
