@@ -12,6 +12,7 @@ A shell script for creating web archives for mlmmj mailing lists.
 ## Requirements
 
 - [MHonArc](http://mhonarc.org).
+- [rsync](http://rsync.samba.org/).
 - Basic UNIX utilities: awk, cat, grep, install, sed and, of course, sh.
 
 ## License
