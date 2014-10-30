@@ -80,10 +80,3 @@ s/@/ [ at ] /; s/\./ [ dot ] /g;
 <!-- apply the address filter in body content too -->
 <MODIFYBODYADDRESSES>
 </MODIFYBODYADDRESSES>
-
-<!-- the template -->
-<!-- XXX: replace with template name var [-definevar does not work with rcfile -->
-<!-- XXX: replace with template path from Makefile -->
-<INCLUDE>
-/home/manolis/zegebook/templates/default/mhonarc/template.mrc
-</INCLUDE>
