@@ -221,6 +221,8 @@ do
 		_content="${_content} $(tr '\n' ' ' < ${_workpath}/longdesc)"
 
 	# get the list addresses
+	# use sed because debian default sh (dash) does not support
+	# string substitution in vars
 	_addrlist="$(cat ${_listpath}/control/listaddress)"
 	_addrsub=$(echo ${_addrlist} |
 		sed -e "s:${_shortname}:${_shortname}+subscribe:")
