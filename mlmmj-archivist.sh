@@ -25,7 +25,7 @@ _error() {
 }
 
 # check if requirements are installed
-for _cmd in awk file mhonarc; do
+for _cmd in awk file mhonarc rsync; do
 	which ${_cmd} >/dev/null 2>&1 || \
 		_error "${_cmd} is not installed"
 done
