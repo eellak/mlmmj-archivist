@@ -19,9 +19,9 @@
 			<span class="sep">|</span>
 			<a href="$LIST-URL$">αρχείο</a>
 			<span class="sep">|</span>
-			<a href="$IDXFNAME$">date index</a>
+			<a href="$IDXFNAME$">ημ. αρχείο</a>
 			<span class="sep">|</span>
-			<a href="$TIDXFNAME$">thread index</a>
+			<a href="$TIDXFNAME$">θεμ. αρχείο</a>
 		</div>
 
 		<div id="message">
