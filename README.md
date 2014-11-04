@@ -23,17 +23,17 @@ The current Makefile requires GNU make. In future versions it should work with B
 
 Running
 
-   make install
+<pre><code>make install</code></pre>
 
 should install the script in /usr/local/bin. The configuration samples in `/etc/mlmmj-archivist` and the bundled templates in `/usr/local/share/mlmmj-archivist/templates`.
 
 All paths can be adjusted by setting the environment variables:
 
-- SYSCONFDIR : for the configuration directory.
-- PREFIX : for replacing `/usr/local` with something else.
-- BINDIR : the installation path for the executable script.
-- SHAREDIR : the shared directory; currently contains the templates directory.
-- DESTDIR : the root directory to work on. Useful for packaging.
+- `SYSCONFDIR` : for the configuration directory.
+- `PREFIX` : for replacing `/usr/local` with something else.
+- `BINDIR` : the installation path for the executable script.
+- `SHAREDIR` : the shared directory; currently contains the templates directory.
+- `DESTDIR` : the root directory to work on. Useful for packaging.
 
 After completing the installation you should copy the configuration files `mlmmj-archivist.conf.sample` to `mlmmj-archivist.conf`, and `mhonarc.mrc.sample` to `mhonarc.mrc`, and tweak to your preference, prior to running the script for first time.
 
@@ -43,7 +43,7 @@ After completing the installation you should copy the configuration files `mlmmj
 
 An example crontab entry for runnign `mlmmj-archivist` hourly:
 
-   5 * * * *  /usr/local/bin/mlmmj-archivist
+<pre><code>5 * * * *  /usr/local/bin/mlmmj-archivist</code></pre>
 
 ## License
 
