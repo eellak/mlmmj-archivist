@@ -25,26 +25,30 @@ Running
 
 <pre><code>make install</code></pre>
 
-should install the script in /usr/local/bin. The configuration samples in `/etc/mlmmj-archivist` and the bundled templates in `/usr/local/share/mlmmj-archivist/templates`.
+should install the script in `/usr/local/bin`, the configuration samples in `/etc/mlmmj-archivist` and the bundled templates in `/usr/local/share/mlmmj-archivist/templates`.
 
 All paths can be adjusted by setting the environment variables:
 
-- `SYSCONFDIR` : for the configuration directory.
-- `PREFIX` : for replacing `/usr/local` with something else.
-- `BINDIR` : the installation path for the executable script.
-- `SHAREDIR` : the shared directory; currently contains the templates directory.
-- `DESTDIR` : the root directory to work on. Useful for packaging.
+- `SYSCONFDIR`: for the configuration directory.
+- `PREFIX`: for replacing `/usr/local` with something else.
+- `BINDIR`: the installation path for the executable script.
+- `SHAREDIR`: the shared directory; currently contains the templates directory.
+- `DESTDIR`: the root directory to work on. Useful for packaging.
 
 After completing the installation you should copy the configuration files `mlmmj-archivist.conf.sample` to `mlmmj-archivist.conf`, and `mhonarc.mrc.sample` to `mhonarc.mrc`, and tweak to your preference, prior to running the script for first time.
 
 ## Usage
 
-`mlmmj-archivist` is designed to run from cron in predefind intervals. Since it creates archives recursively it can be used with frequent intervals in busy hosts with many mailing list messages.
+`mlmmj-archivist` is designed to run from cron in predefined intervals. Since it creates archives recursively it can be used with frequent intervals in busy hosts with many mailing list messages.
 
-An example crontab entry for runnign `mlmmj-archivist` hourly:
+An example crontab entry for running `mlmmj-archivist` hourly:
 
 <pre><code>5 * * * *  /usr/local/bin/mlmmj-archivist</code></pre>
 
+## TODO
+
+- Add parallel archive creation capability, for SMP systems.
+- Switch the localization system to something less hackish; gettext is a good candidate.
 ## License
 
 This project is licensed under the [ISC license](http://opensource.org/licenses/ISC).
