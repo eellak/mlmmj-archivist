@@ -49,6 +49,7 @@ An example crontab entry for running `mlmmj-archivist` hourly:
 
 - Add parallel archive creation capability, for SMP systems.
 - Switch the localization system to something less hackish; gettext is a good candidate.
+
 ## License
 
 This project is licensed under the [ISC license](http://opensource.org/licenses/ISC).
