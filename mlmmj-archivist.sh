@@ -79,18 +79,18 @@ _datefmtrev() {
 
 	# convert month number to name
 	case "${_monthfmt}" in
-		01) _monthfmt="January" ;;
-		02) _monthfmt="February" ;;
-		03) _monthfmt="March" ;;
-		04) _monthfmt="April" ;;
-		05) _monthfmt="May" ;;
-		06) _monthfmt="June" ;;
-		07) _monthfmt="July" ;;
-		08) _monthfmt="August" ;;
-		09) _monthfmt="September" ;;
-		10) _monthfmt="October" ;;
-		11) _monthfmt="November" ;;
-		12) _monthfmt="December" ;;
+		01) _monthfmt="${_str_mon_jan:-January}" ;;
+		02) _monthfmt="${_str_mon_feb:-February}" ;;
+		03) _monthfmt="${_str_mon_mar:-March}" ;;
+		04) _monthfmt="${_str_mon_apr:-April}" ;;
+		05) _monthfmt="${_str_mon_may:-May}" ;;
+		06) _monthfmt="${_str_mon_jun:-June}" ;;
+		07) _monthfmt="${_str_mon_jul:-July}" ;;
+		08) _monthfmt="${_str_mon_aug:-August}" ;;
+		09) _monthfmt="${_str_mon_sep:-September}" ;;
+		10) _monthfmt="${_str_mon_oct:-October}" ;;
+		11) _monthfmt="${_str_mon_nov:-November}" ;;
+		12) _monthfmt="${_str_mon_dec:-December}" ;;
 	esac
 
 	if [ "${_yearfmt}" ]; then
@@ -119,9 +119,14 @@ _html_lang="$(echo ${_language} | cut -d '_' -f 1)"
 if [ ${_language} != 'en_US' ]; then
 	_mhonarc_args="-lang ${_language} -definevar HTML-LANG='${_html_lang}'"
 
-	test -d "__SHAREDIR__/templates/${_template}.${_html_lang}" \
-		&& _template="${_template}.${_html_lang}" \
-		|| echo "no localized template for ${_language}. fallback to en"
+	# check if localized version of the selected template exists
+	# and use that, or fallback to english
+	test -d "__SHAREDIR__/templates/${_template}.${_html_lang}" &&
+		_template="${_template}.${_html_lang}" \
+
+	# check if translated strings are available and source it
+	test -s "__SHAREDIR__/templates/${_template}/trans_str.txt" &&
+		. "__SHAREDIR__/templates/${_template}/trans_str.txt"
 fi
 
 # set the template
@@ -320,8 +325,8 @@ do
 				sed -e "s@${_public_html}@${_public_url}@g")
 
 			# date and thread index links
-			_monthindex="<a href=\"${_monthurl}\">date index</a>"
-			_monthtindex="<a href=\"${_monthurl}/tindex.html\">thread index</a>"
+			_monthindex="<a href=\"${_monthurl}\">${_str_dat_idx:-date index}</a>"
+			_monthtindex="<a href=\"${_monthurl}/tindex.html\">${_str_thr_idx:-thread index}</a>"
 
 			_content="${_content}\t\t\t\t\t<tr>\n"
 			_content="${_content}\t\t\t\t\t\t<th>${_monthfmt}</th>\n"
