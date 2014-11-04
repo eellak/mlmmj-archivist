@@ -1,0 +1,19 @@
+## message strings translated to the greek language
+
+# months
+_str_mon_jan="Ιανουάριος"
+_str_mon_feb="Φεβρουάριος"
+_str_mon_mar="Μάρτιος"
+_str_mon_apr="Απρίλιος"
+_str_mon_may="Μάϊος"
+_str_mon_jun="Ιούνιος"
+_str_mon_jul="Ιούλιος"
+_str_mon_aug="Αύγουστος"
+_str_mon_sep="Σεπτέμβριος"
+_str_mon_oct="Οκτώβριος"
+_str_mon_nov="Νοέμβριος"
+_str_mon_dec="Δεκέμβριος"
+
+# indeces
+_str_dat_idx="ημ. αρχείο"
+_str_thr_idx="θεμ. αρχείο"
