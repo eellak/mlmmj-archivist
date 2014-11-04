@@ -2,7 +2,7 @@
 
 <!-- the thread index title -->
 <TTITLE>
-[$LIST-NAME$] αρχείο βάση θέματος για $DATE-FMT$
+[$LIST-NAME$] θεματικό αρχείο: $DATE-FMT$
 </TTITLE>
 
 <!-- thread index beginning -->
@@ -27,9 +27,9 @@
 				<span class="sep">|</span>
 				<a href="$LIST-URL$">αρχείο</a>
 				<span class="sep">|</span>
-				<a href="$IDXFNAME$">date index</a>
+				<a href="$IDXFNAME$">ημ. αρχείο</a>
 				<span class="sep">|</span>
-				<a href="$TIDXFNAME$" class="current-item">thread index</a>
+				<a href="$TIDXFNAME$" class="current-item">θεμ. αρχείο</a>
 			</div>
 		</header>
 

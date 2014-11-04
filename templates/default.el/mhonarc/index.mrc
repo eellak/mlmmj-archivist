@@ -2,7 +2,7 @@
 
 <!-- the index title -->
 <TITLE>
-[$LIST-NAME$] ημερολογιακό αρχείο για $DATE-FMT$
+[$LIST-NAME$] ημερολογιακό αρχείο: $DATE-FMT$
 </TITLE>
 
 <!-- index beginning -->
@@ -24,9 +24,9 @@
 			<span class="sep">|</span>
 			<a href="$LIST-URL$">αρχείο</a>
 			<span class="sep">|</span>
-			<a href="$IDXFNAME$" class="current-item">date index</a>
+			<a href="$IDXFNAME$" class="current-item">ημ. αρχείο</a>
 			<span class="sep">|</span>
-			<a href="$TIDXFNAME$">thread index</a>
+			<a href="$TIDXFNAME$">θεμ. αρχείο</a>
 		</div>
 
 		<h1>$IDXTITLE$</h1>
