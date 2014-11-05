@@ -307,7 +307,8 @@ do
 	fi
 
 	# create the list of months/years
-	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d); do
+	for _year in $(find ${_listout} -mindepth 1 -maxdepth 1 -type d | sort -r)
+	do
 		_content="${_content}<div class=\"month-list\">\n"
 		_content="${_content}\t\t\t<h2>${_year##${_listout}/}</h2>\n\n"
 		_content="${_content}\t\t\t<table>\n\t\t\t\t<tbody>\n"
