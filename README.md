@@ -13,9 +13,9 @@ A shell script for creating web archives for mlmmj mailing lists.
 
 - [MHonArc](http://mhonarc.org).
 - [rsync](http://rsync.samba.org/).
-- Basic UNIX utilities: awk, cat, grep, install, sed and, of course, sh.
+- Basic UNIX utilities: awk, cat, date, grep, install, sed and, of course, sh.
 
-Tested on Debian Wheezy. Should work on any POSIX-compliant OS and shell, but it's not tested.
+Tested on Debian Wheezy. Currently it requires GNU date so it is not very portable. Should fix this in a future update.
 
 The current Makefile requires GNU make. In future versions it should work with BSD make too.
 
