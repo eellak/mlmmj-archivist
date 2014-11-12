@@ -187,7 +187,7 @@ do
 
 		# get the message date and convert it to the message month
 		_msgdate="$(awk \
-			'/Date: / { print substr($0, index($0, $2))}' \
+			'/^Date: / { print substr($0, index($0, $2))}' \
 			${_msgfile})"
 		_msgmonth=$(_datefmt "${_msgdate}")
 
