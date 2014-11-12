@@ -38,10 +38,10 @@ _datefmt() {
 	_datestr="$1"
 
 	# get the year
-	_yearfmt="$(echo ${_datestr} | awk '{ print $4 }')"
+	_yearfmt="$(echo ${_datestr} | awk '{ print $6 }')"
 
 	# convert month name to number
-	case "$(echo ${_datestr} | awk '{ print $3 }')" in
+	case "$(echo ${_datestr} | awk '{ print $2 }')" in
 		Jan) _monthfmt=01 ;;
 		Feb) _monthfmt=02 ;;
 		Mar) _monthfmt=03 ;;
@@ -182,10 +182,15 @@ do
 		# skip unavailable messages
 		test -s "${_msgfile}" || continue
 
-		# get the message date and convert it to the message month
-		_msgdate="$(awk \
-			'/^Date: / { print substr($0, index($0, $2))}' \
-			${_msgfile})"
+		# get the message date and convert it to something parsable to
+		# avoid problems from misconfigured smtp servers (looking at
+		# you, qmail) -- requires gnu date unfortunately.
+		# XXX: find posix-compliant alternative solution.
+		_msgdate=$(date --date="$(awk \
+			'/^Date: / { print substr($0, index($0, $2)); exit }' \
+			${_msgfile})")
+
+		# convert the date to the message month
 		_msgmonth=$(_datefmt "${_msgdate}")
 
 		# create month directory if not available
