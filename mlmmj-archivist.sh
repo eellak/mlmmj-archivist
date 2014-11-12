@@ -165,9 +165,6 @@ do
 	# domain/listname structure is used
 	_shortname=$(echo ${_listpath##${_mlmmj_spool}/} | cut -d '/' -f2)
 
-	# add the mailing list to the varlist of all active lists
-	_mlists="${_mlists} ${_shortname}"
-
 	# create the output directory if not available
 	test -d "${_public_html}" || install -d -m 0755 "${_public_html}"
 
@@ -356,7 +353,9 @@ do
 done
 
 # create the homepage
-if [ "${_mlists}" ]; then
+if _mlists=$(find ${_public_html} -mindepth 1 -maxdepth 1 -type d \
+	-not -name 'assets' -exec basename {} \; | sort) 2>/dev/null
+then
 	# temporary homepage index
 	if _temp_homeindex="$(mktemp ${_public_html}/.index.html.XXXXXX)"; then
 		trap 'rm -f ${_temp_homeindex}; exit 1' 0 1 15
@@ -364,8 +363,8 @@ if [ "${_mlists}" ]; then
 		_error "temp file creation failed"
 	fi
 
-	# create links to available lists
-	for _mlist in ${_mlists}; do
+	# create links to available lists, alphabetically sorted
+	for _mlist in $(echo ${_mlists}); do
 		_mlisturl="<h3 class=\"listname\"><a href=\"${_public_url}/${_mlist}/listinfo.html\">${_mlist}</a></h3>"
 		_content="${_content}${_mlisturl}"
 
