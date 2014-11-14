@@ -370,11 +370,14 @@ then
 
 	# create links to available lists, alphabetically sorted
 	for _mlist in $(echo ${_mlists}); do
-		_mlisturl="<h3 class=\"listname\"><a href=\"${_public_url}/${_mlist}/listinfo.html\">${_mlist}</a></h3>"
-		_content="${_content}${_mlisturl}"
-
 		_workpath="$(find ${_mlmmj_spool} -maxdepth 3 -type d \
 			-name ${_mlist})/archivist"
+
+		# skip adding the list to the home page if configured so
+		test -e ${_workpath}/homeless && continue
+
+		_mlisturl="<h3 class=\"listname\"><a href=\"${_public_url}/${_mlist}/listinfo.html\">${_mlist}</a></h3>"
+		_content="${_content}${_mlisturl}"
 
 		# if the list contains short description append it to
 		# the page content
