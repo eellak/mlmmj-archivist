@@ -180,7 +180,12 @@ do
 		_msgfile="${_listpath}/archive/${_msg}"
 
 		# skip unavailable messages
-		test -s "${_msgfile}" || continue
+		if [ ! -s "${_msgfile}" ]; then
+			# increment the counter first
+			_msg=$((${_msg} + 1))
+
+			continue
+		fi
 
 		# get the message date and convert it to something parsable to
 		# avoid problems from misconfigured smtp servers (looking at
@@ -210,7 +215,7 @@ do
 		# update last index counter on success
 		[ "$?" -eq 0 ] && echo ${_msg} > ${_workpath}/lastindex
 
-		# incremenet the counter
+		# increment the counter
 		_msg=$((${_msg} + 1))
 	done
 
