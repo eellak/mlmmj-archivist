@@ -1,6 +1,6 @@
 # mlmmj-archivist
 
-A shell script for creating web archives for mlmmj mailing lists.
+A shell script for creating web archives for mlmmj mailing lists. Mlmmj-archivist generates the web archives for the public mailing lists of GFOSS (ΕΕΛ/ΛΑΚ), available at [https://lists.ellak.gr/](https://lists.ellak.gr/).
 
 ## Features
 
