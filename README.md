@@ -39,7 +39,7 @@ After completing the installation you should copy the configuration files `mlmmj
 
 ## Usage
 
-`mlmmj-archivist` is designed to run from cron in predefined intervals. Since it creates archives recursively it can be used with frequent intervals in busy hosts with many mailing list messages.
+`mlmmj-archivist` is designed to run from cron in predefined intervals. Since it creates archives incrementally it can be used with frequent intervals in busy hosts with many mailing list messages.
 
 An example crontab entry for running `mlmmj-archivist` hourly:
 
