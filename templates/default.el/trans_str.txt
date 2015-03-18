@@ -17,3 +17,7 @@ _str_mon_dec="Δεκέμβριος"
 # indeces
 _str_dat_idx="ημ. αρχείο"
 _str_thr_idx="θεμ. αρχείο"
+
+# metadata
+_str_meta_sub="συνδρομητές"
+_str_meta_msg="μηνύματα"
