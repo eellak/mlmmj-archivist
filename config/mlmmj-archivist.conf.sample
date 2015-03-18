@@ -18,3 +18,7 @@ _template="default"
 # the output language in ISO 639-1 (language) and ISO 3166 (country)
 # format. utf-8 is used by default
 _language="en_US"
+
+# add list metadata (subscribers & messages count)
+# boolean (true/false)
+_metadata=false
