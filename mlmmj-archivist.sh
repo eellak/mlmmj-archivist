@@ -400,7 +400,7 @@ then
 			_meta_subs=$((${_normal_subs} + ${_digest_subs}))
 
 			# add the subscribers total & the number of messages in the content
-			_content="${_content}\n\t\t<p class=\"listmeta\"><small><span>${_str_meta_sub:-subscribers}:</span> ${_meta_subs} | <span>${_str_meta_msg:-messages}:</span> $(cat ${_listdir}/index)</small></p>"
+			_content="${_content}\n\t\t<p class=\"listmeta\"><small>${_str_meta_sub:-subscribers}: <span>${_meta_subs}</span> | ${_str_meta_msg:-messages}: <span>$(cat ${_listdir}/index)</span></small></p>"
 		fi
 	done
 
