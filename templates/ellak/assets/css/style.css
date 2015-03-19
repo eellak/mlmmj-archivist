@@ -81,6 +81,10 @@ h3.listname {
 	margin: 30px 0 10px;
 }
 
+.listmeta span {
+	font-weight: bold;
+}
+
 .title-center {
 	text-align: center;
 }
