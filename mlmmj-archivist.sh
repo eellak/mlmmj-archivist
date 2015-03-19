@@ -388,6 +388,20 @@ then
 		# the page content
 		test -s ${_workpath}/shortdesc && \
 			_content="${_content} <p>$(cat ${_workpath}/shortdesc)</p>"
+
+		# add list metadata if required
+		if ${_metadata}; then
+			# the mailing list directory
+			_listdir=${_workpath%%/archivist}
+
+			# the sum of normal & digest subscribers
+			_normal_subs=$(mlmmj-list -L ${_listdir} -c)
+			_digest_subs=$(mlmmj-list -L ${_listdir} -d | wc -l)
+			_meta_subs=$((${_normal_subs} + ${_digest_subs}))
+
+			# add the subscribers total & the number of messages in the content
+			_content="${_content}\n\t\t<p class=\"listmeta\"><small><span>${_str_meta_sub:-subscribers}:</span> ${_meta_subs} | <span>${_str_meta_msg:-messages}:</span> $(cat ${_listdir}/index)</small></p>"
+		fi
 	done
 
 	# output homepage to the temp file
