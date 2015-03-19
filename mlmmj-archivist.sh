@@ -373,6 +373,21 @@ then
 		_error "temp file creation failed"
 	fi
 
+	# if metadata is required and the template is 'ellak' add the metadata
+	# for the wikiel list
+	if ${_metadata} && [ ${_template} = 'ellak' ]; then
+		_wikieldata="/var/lib/wikieldata/wikiel.data"
+
+		# skip if no data is available
+		test -s ${_wikieldata} || continue
+
+		# the subscribers and messages counters
+		_wikielsub="$(awk '/messages: / { print $2 }' ${_wikieldata})"
+		_wikielmsg="$(awk '/subscribers: / { print $2 }' ${_wikieldata})"
+
+		_content="${_content}\n\t\t<p class=\"listmeta\"><small>${_str_meta_sub:-subscribers}: <span>${_wikielsub}</span> | ${_str_meta_msg:-messages}: <span>${_wikielmsg}</span></small></p>"
+	fi
+
 	# create links to available lists, alphabetically sorted
 	for _mlist in $(echo ${_mlists}); do
 		_workpath="$(find ${_mlmmj_spool} -maxdepth 3 -type d \
